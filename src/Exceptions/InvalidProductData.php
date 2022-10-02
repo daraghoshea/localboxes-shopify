@@ -8,6 +8,11 @@ class InvalidProductData extends Exception
 {
     public $data;
 
+    public static function fromThrowable(\Throwable $e, array $data = [])
+    {
+        return tap(new static($e->getMessage(), null, $e), fn ($e) => $e->data = $data);
+    }
+
     public static function invalidProductJson($url)
     {
         return new static("Invalid product json returned from {$url}");

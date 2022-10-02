@@ -53,17 +53,17 @@ class FetchProducts
 
         $response = $this->client->get($jsonUri);
 
-        $products = json_decode($response->body(), true);
+        $data = json_decode($response->body(), true);
 
         if(json_last_error() != JSON_ERROR_NONE) {
             throw InvalidProductData::invalidProductJson($jsonUri);
         }
 
-        if(!isset($products['products']) || !is_array($products['products'])) {
-            throw InvalidProductData::invalidData($products);
+        if(!isset($data['products']) || !is_array($data['products'])) {
+            throw InvalidProductData::invalidData($data);
         }
 
-        return array_map([$this,'arrayToValueObject'], $products['products']);
+        return array_map([$this,'arrayToValueObject'], $data['products']);
     }
 
     /** @throws InvalidProductData */
@@ -74,8 +74,7 @@ class FetchProducts
         } catch (UnknownProperties $e) {
             throw InvalidProductData::invalidValueObject($product);
         } catch (\Throwable $e) {
-            print_r(['product' => $product]);
-            throw new InvalidProductData($e->getMessage(),null, $e);
+            throw InvalidProductData::fromThrowable($e, $product);
         }
     }
 }
