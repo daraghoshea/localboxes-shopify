@@ -78,8 +78,8 @@ class FetchProducts
                         : ''
                 ]
             ));
-        } catch (UnknownProperties $e) {
-            throw InvalidProductData::invalidValueObject($product);
+        } catch (UnknownProperties|\TypeError $e) {
+            throw InvalidProductData::invalidValueObject($product, $e);
         } catch (\Throwable $e) {
             throw InvalidProductData::fromThrowable($e, $product);
         }
