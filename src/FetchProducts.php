@@ -22,6 +22,11 @@ class FetchProducts
         $this->client = $client ?? new Client;
     }
 
+    public function page() : int
+    {
+        return $this->page;
+    }
+
     /**
      * @throws InvalidProductData
      */
