@@ -70,12 +70,14 @@ class FetchProducts
     private function arrayToValueObject(array $product) : ProductData
     {
         try {
-            return new ProductData([
-                ...$product,
-                'url' => isset($product['handle'])
-                    ? (string) $this->domain->withPath('/products/' . $product['handle'])
-                    : ''
-            ]);
+            return new ProductData(array_merge(
+                $product,
+                [
+                    'url' => isset($product['handle'])
+                        ? (string) $this->domain->withPath('/products/' . $product['handle'])
+                        : ''
+                ]
+            ));
         } catch (UnknownProperties $e) {
             throw InvalidProductData::invalidValueObject($product);
         } catch (\Throwable $e) {
