@@ -79,7 +79,7 @@ class FetchProducts
         );
 
         try {
-            return new ProductData();
+            return new ProductData($data);
         } catch (UnknownProperties|\TypeError $e) {
             throw InvalidProductData::invalidValueObject($data, $e);
         } catch (\Throwable $e) {
