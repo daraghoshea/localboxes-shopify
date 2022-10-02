@@ -16,9 +16,10 @@ class FetchProducts
         private Uri $domain,
         private int $page = 1,
         private int $secondsBetweenPageFetches = 1,
+        Client $client = null,
     )
     {
-        $this->client = new Client;
+        $this->client = $client ?? new Client;
     }
 
     /**
@@ -31,7 +32,7 @@ class FetchProducts
         while($hasProducts) {
             $products = $this->fetchPage();
 
-            if(empty($products['products'])) {
+            if(empty($products)) {
                 $hasProducts = false;
                 continue;
             }

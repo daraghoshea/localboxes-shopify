@@ -18,5 +18,14 @@
         "jessarcher/laravel-castable-data-transfer-object": "^2.2",
         "guzzlehttp/guzzle": "^7.5",
         "illuminate/http": "^9.33"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.22",
+        "spatie/ray": "^1.36"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
