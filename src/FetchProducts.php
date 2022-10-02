@@ -69,19 +69,21 @@ class FetchProducts
     /** @throws InvalidProductData */
     private function arrayToValueObject(array $product) : ProductData
     {
+        $data = array_merge(
+            $product,
+            [
+                'url' => isset($product['handle'])
+                    ? (string) $this->domain->withPath('/products/' . $product['handle'])
+                    : ''
+            ]
+        );
+
         try {
-            return new ProductData(array_merge(
-                $product,
-                [
-                    'url' => isset($product['handle'])
-                        ? (string) $this->domain->withPath('/products/' . $product['handle'])
-                        : ''
-                ]
-            ));
+            return new ProductData();
         } catch (UnknownProperties|\TypeError $e) {
-            throw InvalidProductData::invalidValueObject($product, $e);
+            throw InvalidProductData::invalidValueObject($data, $e);
         } catch (\Throwable $e) {
-            throw InvalidProductData::fromThrowable($e, $product);
+            throw InvalidProductData::fromThrowable($e, $data);
         }
     }
 }
