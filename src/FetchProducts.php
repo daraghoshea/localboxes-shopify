@@ -74,6 +74,7 @@ class FetchProducts
         } catch (UnknownProperties $e) {
             throw InvalidProductData::invalidValueObject($product);
         } catch (\Throwable $e) {
+            print_r(['product' => $product]);
             throw new InvalidProductData($e->getMessage(),null, $e);
         }
     }
