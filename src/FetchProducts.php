@@ -33,9 +33,10 @@ class FetchProducts
 
             if(empty($products['products'])) {
                 $hasProducts = false;
+                continue;
             }
 
-            yield $callback($products, $this->domain, $this->page);
+            yield $callback($products, $this->page);
 
             if ($this->secondsBetweenPageFetches) {
                 sleep($this->secondsBetweenPageFetches);
@@ -46,7 +47,7 @@ class FetchProducts
     }
 
     /** @throws InvalidProductData */
-    public function fetchPage() : array
+    private function fetchPage() : array
     {
         $jsonUri = $this->domain->withPath('products.json')->withQuery("page={$this->page}");
 
