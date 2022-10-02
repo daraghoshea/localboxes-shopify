@@ -49,7 +49,7 @@ class FetchProducts
     /** @throws InvalidProductData */
     private function fetchPage() : array
     {
-        $jsonUri = $this->domain->withPath('products.json')->withQuery("page={$this->page}");
+        $jsonUri = $this->domain->withPath('/products.json')->withQuery("page={$this->page}");
 
         $response = $this->client->get($jsonUri);
 
