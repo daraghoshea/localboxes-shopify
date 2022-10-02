@@ -24,7 +24,7 @@ class FetchProducts
     /**
      * @throws InvalidProductData
      */
-    public function fetch(callable $callback) : \Iterator
+    public function fetch() : \Iterator
     {
         $hasProducts = true;
 
@@ -36,7 +36,7 @@ class FetchProducts
                 continue;
             }
 
-            yield $callback($products, $this->page);
+            yield $products;
 
             if ($this->secondsBetweenPageFetches) {
                 sleep($this->secondsBetweenPageFetches);
@@ -70,7 +70,12 @@ class FetchProducts
     private function arrayToValueObject(array $product) : ProductData
     {
         try {
-            return new ProductData($product);
+            return new ProductData([
+                ...$product,
+                'url' => isset($product['handle'])
+                    ? (string) $this->domain->withPath('/products/' . $product['handle'])
+                    : ''
+            ]);
         } catch (UnknownProperties $e) {
             throw InvalidProductData::invalidValueObject($product);
         } catch (\Throwable $e) {
